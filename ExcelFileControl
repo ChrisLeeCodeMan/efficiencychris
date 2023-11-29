@@ -1,0 +1,35 @@
+from openpyxl import Workbook
+
+class WeeklyWorkPlan:
+
+  wb = None
+  ws = None
+  start_date = '2022-09-01'
+  manager = "담당자를 입력해주세요 : "
+# class 초기 진행 시 자동으로 진행되는 내용으로 def 뒤 __init__(self) 로 입력할 경우 자동으로 진행한다.
+# __init__(self): 는 무조건 묶음으로 같이 움직여야한다.
+
+  def __init__(self, start_date, manager, sheet_no=0):
+    self.wb = Workbook() # workbook() 으로 새로운 workbook 을 생성한다. self.wb 에서 self 는 클래스의 인스턴스를 나타내는 표준관례, 
+    self.ws = self.wb.worksheets[sheet_no]
+    self.start_date = start_date
+    self.manager = manager
+    self.set_title()
+
+  def save(self, filename):
+    self.wb.save(filename)
+    print('엑셀파일 생성 완료')
+
+  def set_title(self):
+    self.ws['B2'] = '담당자'
+    self.ws['C2'] = self.manager
+    self.ws['B3'] = '시작일'
+    self.ws['C3'] = self.start_date
+
+
+if __name__ == '__main__': #__name__ 은 특별한 내장변수로 현재 스크립트의 이름을 나타냄, 다른 file에 의해 import될때 __name__ 은 file명이 된다(.py를 제외한)
+  # 위 if 문을 씀으로써 해당 script가 다른 file에 의해 간접적으로 import되더라도 실행되지 않게한다, 해당 script 가 직접적으로 실행될때에만 실행되게 하는 구문
+  #. 프로그램이 시작되는 지점을 의미하기도 함.
+  wwp = WeeklyWorkPlan('2022-09-05','이상영')
+  wwp.save('주간업무계획표.xlsx')
+  
